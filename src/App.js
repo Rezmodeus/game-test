@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 import Actions from './actions/Actions';
-import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap';
+import {FormGroup, ControlLabel, FormControl, Button, ButtonToolbar, ButtonGroup} from 'react-bootstrap';
 
 class App extends Component {
 
@@ -14,13 +14,32 @@ class App extends Component {
 			inputRef: null,
 		};
 		this.compile = this.compile.bind(this);
+		this.save = this.save.bind(this);
+		this.reset = this.reset.bind(this);
+	}
+
+	componentDidMount() {
+		const prevCode = localStorage.getItem('savedCode');
+		if (prevCode) {
+			ReactDOM.findDOMNode(this.refs.codeArea).value = prevCode;
+		}
+	}
+
+	getCode() {
+		const elem = ReactDOM.findDOMNode(this.refs.codeArea);
+		return elem.value;
+	}
+
+	reset() {
+		ReactDOM.findDOMNode(this.refs.codeArea).value = '';
+	}
+
+	save() {
+		localStorage.setItem('savedCode', this.getCode());
 	}
 
 	compile() {
-		// console.log('compile', this.refs.codeArea.value);
-		const elem = ReactDOM.findDOMNode(this.refs.codeArea);
-		console.log(elem.value)
-		this.props.runCode(elem.value)
+		this.props.runCode(this.getCode())
 	}
 
 	render() {
@@ -51,8 +70,13 @@ class App extends Component {
 						componentClass="textarea"
 						placeholder="code area"/>
 				</FormGroup>
-				<Button bsStyle="primary" onClick={this.compile}>compile</Button>
-				<Button bsStyle="warning">reset</Button>
+				<ButtonToolbar>
+					<ButtonGroup>
+						<Button bsStyle="danger" onClick={this.reset}>reset</Button>
+						<Button bsStyle="success" onClick={this.save}>save</Button>
+					</ButtonGroup>
+					<Button bsStyle="primary" onClick={this.compile}>compile</Button>
+				</ButtonToolbar>
 			</div>
 		);
 	}
