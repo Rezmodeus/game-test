@@ -65,6 +65,7 @@ class App extends Component {
 				<FormGroup controlId="formControlsTextarea" style={outerStyle}>
 					<ControlLabel>code</ControlLabel>
 					<FormControl
+						autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
 						style={innerStyle}
 						ref="codeArea"
 						componentClass="textarea"
