@@ -1,5 +1,6 @@
 import immutable from 'immutable';
 import ScriptCommands from './ScriptCommands'
+import Elements from './Elements'
 
 export default {
 
@@ -26,7 +27,7 @@ export default {
 		}, {});
 	},
 
-	runCommands(world, codeStr) {
+	runCommands(world, elements, codeStr) {
 		const lines = this.getLines(codeStr);
 		for (let i = 0; i < lines.length; i++) {
 			let line = lines[i];
@@ -41,21 +42,23 @@ export default {
 				world = world.set(eventName, immutable.fromJS(eventList))
 				continue;
 			}
-			console.log('run', line);
+			world = ScriptCommands.runCommand(world, line, elements);
 		}
 		console.log(world.toJS())
 	},
 
 	compile(codeStr) {
+
+		// init world
+
 		// const lines = this.getLines(codeStr);
 		// console.log('lines', lines);
 		// const obj = this.getObjectWithKeys(lines);
 		// console.log('obj', obj);
 		// const world = immutable.fromJS(obj);
 		const world = immutable.Map();
-		const events = this.getEvents(codeStr);
-		console.log('events', events);
-		this.runCommands(world, codeStr);
+
+		this.runCommands(world, Elements, codeStr);
 
 	},
 
