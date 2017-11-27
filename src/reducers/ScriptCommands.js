@@ -1,23 +1,36 @@
 import immutable from 'immutable';
+import Elements from './Elements'
 
 export default {
 
-	command_is(element) {
-	},
-	command_in(building) {
-	},
-	command_at(place) {
-	},
-	command_has(something) {
-	},
-	command_unlocks(somethingLocked) {
+	runCommand(world, commandAsArray) {
+		const [entity, command, target, secondTarget] = commandAsArray;
+		world = this['command_' + command](world, entity, target, secondTarget);
+		return world;
+
 	},
 
-	command_go(place) {
+	command_is(world, entity, target) {
+		return world.set(entity, target);
 	},
-	command_use(something, somethingElse) {
+	command_in(world, entity, target) {
+		return world.setIn([entity, 'position'], world.getIn([target, 'position']));
 	},
-	command_attack(someone) {
+	command_at(world, entity, target) {
+		return world.setIn([entity, 'position'], world.getIn([target, 'position']));
+	},
+	command_has(world, entity, target) {
+		return world.updateIn([entity, 'inventory'], inventory => inventory.push(world.get(target)));
+	},
+	command_unlocks(world, entity, target) {
+	},
+
+	command_go(world, entity, target) {
+		return world.setIn([entity, 'position'], target.get('position'));
+	},
+	command_use(world, entity, target, secondTarget) {
+	},
+	command_attack(world, entity, target) {
 	},
 	command_when(condition, commands) {
 	},
