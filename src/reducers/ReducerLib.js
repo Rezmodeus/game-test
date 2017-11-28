@@ -7,7 +7,7 @@ export default {
 	getLines(codeStr) {
 		return codeStr.split('\n')
 			.map(line => line.trim())
-			.filter(line => line.length > 0)
+			.filter(line => line.length > 0 && line.substring(0, 2) !== '//')
 			.map(line => line.split('.'));
 
 	},
