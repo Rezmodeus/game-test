@@ -4,7 +4,12 @@ import {connect} from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 import Actions from './actions/Actions';
-import {FormGroup, ControlLabel, FormControl, Button, ButtonToolbar, ButtonGroup} from 'react-bootstrap';
+import GameCanvas from './components/GameCanvas.react'
+import {
+	FormGroup, ControlLabel, FormControl, Button, ButtonToolbar, ButtonGroup,
+	Grid, Row, Col, Image
+
+} from 'react-bootstrap';
 
 class App extends Component {
 
@@ -62,22 +67,35 @@ class App extends Component {
 				<p className="App-intro">
 					To get started, edit <code>src/App.js</code> and save to reload.
 				</p>
-				<FormGroup controlId="formControlsTextarea" style={outerStyle}>
-					<ControlLabel>code</ControlLabel>
-					<FormControl
-						autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false"
-						style={innerStyle}
-						ref="codeArea"
-						componentClass="textarea"
-						placeholder="code area"/>
-				</FormGroup>
-				<ButtonToolbar>
-					<ButtonGroup>
-						<Button bsStyle="danger" onClick={this.reset}>reset</Button>
-						<Button bsStyle="success" onClick={this.save}>save</Button>
-					</ButtonGroup>
-					<Button bsStyle="primary" onClick={this.compile}>compile</Button>
-				</ButtonToolbar>
+
+				<Grid>
+					<Row className="show-grid">
+						<Col xs={9} md={6}>
+							<FormGroup controlId="formControlsTextarea" style={outerStyle}>
+								<ControlLabel>code</ControlLabel>
+								<FormControl
+									autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false"
+									style={innerStyle}
+									ref="codeArea"
+									componentClass="textarea"
+									placeholder="code area"/>
+							</FormGroup>
+							<ButtonToolbar>
+								<ButtonGroup>
+									<Button bsStyle="danger" onClick={this.reset}>reset</Button>
+									<Button bsStyle="success" onClick={this.save}>save</Button>
+								</ButtonGroup>
+								<Button bsStyle="primary" onClick={this.compile}>compile</Button>
+							</ButtonToolbar>
+
+						</Col>
+						<Col xs={9} md={6}>
+
+							<GameCanvas/>
+
+						</Col>
+					</Row>
+				</Grid>
 			</div>
 		);
 	}
